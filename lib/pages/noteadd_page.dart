@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mynotes/components/inputtext.dart';
-import 'package:mynotes/themes/textstyles.dart';
 
 class NoteAddPage extends StatefulWidget {
   const NoteAddPage({super.key});
@@ -27,7 +26,7 @@ class _NoteAddPageState extends State<NoteAddPage> {
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: Stack(
             children: [
-              Column(
+              ListView(
                 children: [
                   InputText(
                     txtController: titleController,

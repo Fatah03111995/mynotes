@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mynotes/pages/noteadd_page.dart';
+import 'package:mynotes/themes/color.dart';
+import 'package:mynotes/themes/textstyles.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({super.key});
@@ -28,8 +30,30 @@ class _NotesPageState extends State<NotesPage> {
             childAspectRatio: 0.8,
           ),
           itemBuilder: (context, index) {
-            return const Card(
-              color: Colors.red,
+            return Card(
+              color: MyColors.yellow,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Column(
+                  children: [
+                    Text(
+                      'Sample Title',
+                      style: TextStyles.notesTitleDetail,
+                    ),
+                    Divider(
+                      thickness: 2,
+                      height: 5,
+                      color: Colors.white.withOpacity(0.7),
+                    ),
+                    Flexible(
+                      child: Text(
+                        'Sample Contaiiiiiiiiiiiiiiiiiiiiiii smsmsmsm\nxdsfddddddddddsdcdf\nsadfasdf\nsdfd\nsdf\ndgdnd\ndsfsfsfsadf\nadfasdfasdfasfsadf',
+                        style: TextStyles.notesContain,
+                      ),
+                    )
+                  ],
+                ),
+              ),
             );
           }),
       floatingActionButton: FloatingActionButton(

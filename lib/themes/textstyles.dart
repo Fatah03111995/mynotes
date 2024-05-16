@@ -28,4 +28,12 @@ class TextStyles {
       sm.copyWith(color: Colors.grey.withOpacity(0.8));
   static TextStyle get formError => s.copyWith(color: Colors.red);
   static TextStyle get formLabel => smBold;
+
+  static TextStyle get noteTitleDetail => mBold;
+  static TextStyle get noteContainDetail => sm;
+
+  static TextStyle get notesTitleDetail => smBold;
+  static TextStyle get notesContain => s.copyWith(
+      // overflow: TextOverflow.ellipsis,
+      );
 }
