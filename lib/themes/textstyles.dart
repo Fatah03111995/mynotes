@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Textstyles {
+class TextStyles {
   static TextStyle get normal => GoogleFonts.poppins(
         fontWeight: FontWeight.normal,
         fontSize: 18,
