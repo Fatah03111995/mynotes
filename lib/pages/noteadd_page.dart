@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mynotes/components/inputtext.dart';
+import 'package:mynotes/model/note.dart';
 
 class NoteAddPage extends StatefulWidget {
   const NoteAddPage({super.key});
@@ -48,8 +49,9 @@ class _NoteAddPageState extends State<NoteAddPage> {
                 child: FloatingActionButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      print(
-                          'title : ${titleController.value.text}, contain : ${containController.value.text}');
+                      Note(
+                          title: titleController.value.text,
+                          contain: containController.value.text);
                     }
                   },
                   child: const Icon(Icons.check),
