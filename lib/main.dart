@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mynotes/pages/notes_page.dart';
+import 'package:mynotes/themes/textstyles.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,12 +12,19 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: NotesPage(),
+      theme: ThemeData.light().copyWith(
+        appBarTheme: AppBarTheme(
+          color: Colors.blue,
+          centerTitle: true,
+          titleTextStyle: TextStyles.mBold,
+          titleSpacing: 1.7,
+          systemOverlayStyle:
+              const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+        ),
+      ),
+      home: const NotesPage(),
     );
   }
 }

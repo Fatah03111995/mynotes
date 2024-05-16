@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mynotes/themes/textstyles.dart';
+import 'package:mynotes/pages/noteadd_page.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({super.key});
@@ -14,9 +14,8 @@ class _NotesPageState extends State<NotesPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'My Notes',
-          style: TextStyles.mlBold,
         ),
       ),
       body: GridView.builder(
@@ -33,6 +32,13 @@ class _NotesPageState extends State<NotesPage> {
               color: Colors.red,
             );
           }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => NoteAddPage()));
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

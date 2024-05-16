@@ -22,4 +22,10 @@ class TextStyles {
   static TextStyle get mlBold => ml.copyWith(fontWeight: FontWeight.bold);
   static TextStyle get lBold => l.copyWith(fontWeight: FontWeight.bold);
   static TextStyle get xlBold => xl.copyWith(fontWeight: FontWeight.bold);
+
+  static TextStyle get formValue => sm;
+  static TextStyle get formHint =>
+      sm.copyWith(color: Colors.grey.withOpacity(0.8));
+  static TextStyle get formError => s.copyWith(color: Colors.red);
+  static TextStyle get formLabel => smBold;
 }
