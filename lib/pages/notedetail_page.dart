@@ -35,54 +35,42 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
     note = widget.note;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         leading: null,
         title: const Text('Detail Page'),
       ),
-      body: Stack(
-        children: [
-          Card(
-            color: note.color,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Text(
-                      note.title,
-                      style: TextStyles.noteTitleDetail,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Divider(
-                    thickness: 3,
-                    height: 30,
-                    color: Colors.white.withOpacity(0.7),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Text(
-                      note.contain,
-                      style: TextStyles.noteContainDetail,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.start,
-                    ),
-                  )
-                ],
+      body: Card(
+        color: note.color,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Text(
+                  note.title,
+                  style: TextStyles.noteTitleDetail,
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
+              Divider(
+                thickness: 3,
+                height: 30,
+                color: Colors.white.withOpacity(0.7),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Text(
+                  note.contain,
+                  style: TextStyles.noteContainDetail,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
+                ),
+              )
+            ],
           ),
-          Positioned(
-              top: 20,
-              right: 20,
-              child: IconButton.filled(
-                  onPressed: () {
-                    updateData();
-                  },
-                  icon: Icon(
-                      note.mark ? Icons.bookmark : Icons.bookmark_border))),
-        ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

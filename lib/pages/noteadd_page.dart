@@ -23,6 +23,7 @@ class _NoteAddPageState extends State<NoteAddPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Add Your Note'),
         leading: null,
       ),

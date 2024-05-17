@@ -26,6 +26,7 @@ class _NoteEditPageState extends State<NoteEditPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Your Note'),
+        automaticallyImplyLeading: false,
         leading: null,
       ),
       backgroundColor: note.color,
