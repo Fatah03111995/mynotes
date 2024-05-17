@@ -32,8 +32,6 @@ class TextStyles {
   static TextStyle get noteTitleDetail => mBold;
   static TextStyle get noteContainDetail => sm;
 
-  static TextStyle get notesTitleDetail => smBold;
-  static TextStyle get notesContain => s.copyWith(
-      // overflow: TextOverflow.ellipsis,
-      );
+  static TextStyle get notesTitle => smBold;
+  static TextStyle get notesContain => s;
 }

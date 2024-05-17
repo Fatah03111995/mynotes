@@ -15,25 +15,34 @@ class LocalDatasource {
 
     return await openDatabase(path,
         version: 1,
-        onCreate: (db, version) => db.execute('''CREATE TABLE $tableName(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        onCreate: (db, version) => db.execute(
+            '''CREATE TABLE $tableName(id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
         contain TEXT,
         mark BOOLEAN,
-        tag LIST,
+        color INTEGER,
         createdAt INTEGER,
-        editedAt INTEGER,
-      )'''));
+        editedAt INTEGER)'''));
   }
 
   //insert data
-  Future<int> insertNote(Note note) async {
+  // Future<int> insertNote(Note note) async {
+  Future<int> insertNote(Map<String, dynamic> note) async {
     final db = await _openDatabase();
-    return await db.insert(tableName, note.toMap());
+    // return await db.rawInsert('''INSERT INTO $tableName VALUES(
+    //                           ${note['id']},
+    //                           ${note['title']},
+    //                           ${note['contain']},
+    //                           ${note['mark']},
+    //                           ${note['color']},
+    //                           ${note['createdAt']},
+    //                           ${note['editedAt']}
+    //                           )''');
+    return await db.insert(tableName, note);
   }
 
   //get all notes
-  Future<List<Note>> getNotes() async {
+  Future getNotes() async {
     final db = await _openDatabase();
     final maps = await db.query(tableName, orderBy: 'createdAt DESC');
 
@@ -53,8 +62,8 @@ class LocalDatasource {
   Future<int> updateNoteById(Note note) async {
     final db = await _openDatabase();
 
-    return await db
-        .update(tableName, note.toMap(), where: 'id = ?', whereArgs: [note.id]);
+    return await db.update(tableName, note.toMapSql(),
+        where: 'id = ?', whereArgs: [note.id]);
   }
 
   //delete note by id

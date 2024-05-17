@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mynotes/model/note.dart';
+import 'package:mynotes/themes/color.dart';
+import 'package:mynotes/themes/textstyles.dart';
 
 class NoteDetailPage extends StatefulWidget {
-  const NoteDetailPage({super.key});
+  final Note note;
+  const NoteDetailPage({super.key, required this.note});
 
   @override
   State<NoteDetailPage> createState() => _NoteDetailPageState();
@@ -10,6 +14,44 @@ class NoteDetailPage extends StatefulWidget {
 class _NoteDetailPageState extends State<NoteDetailPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final Note note = widget.note;
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Detail Page'),
+      ),
+      body: Card(
+        color: MyColors.yellow,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Text(
+                  note.title,
+                  style: TextStyles.noteTitleDetail,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Divider(
+                thickness: 3,
+                height: 30,
+                color: Colors.white.withOpacity(0.7),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Text(
+                  note.contain,
+                  style: TextStyles.noteContainDetail,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

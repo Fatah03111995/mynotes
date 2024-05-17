@@ -24,7 +24,7 @@ class MainApp extends StatelessWidget {
               const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
         ),
       ),
-      home: const NotesPage(),
+      home: NotesPage(),
     );
   }
 }

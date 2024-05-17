@@ -8,7 +8,7 @@ class Note {
   final String title;
   final String contain;
   final bool mark;
-  final List tag;
+  // final List tag; // NEXT DEVELOPMENT, HOW TO INPUT ARRAY TO SQLs
   final Color color;
   final DateTime? createdAt;
   final DateTime? editedAt;
@@ -18,19 +18,19 @@ class Note {
     required this.contain,
     this.id,
     this.mark = false,
-    this.tag = const [],
+    // this.tag = const ['contoh1', 'contoh2'],
     this.color = Colors.white,
     this.createdAt,
     this.editedAt,
   });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMapSql() {
     return <String, dynamic>{
       'id': id,
       'title': title,
       'contain': contain,
-      'mark': mark,
-      'tag': tag,
+      'mark': mark ? 1 : 0, // boolean in sql are only 1 or 0
+      // 'tag': tag.toList(),
       'color': color.value,
       'createdAt': createdAt?.millisecondsSinceEpoch,
       'editedAt': editedAt?.millisecondsSinceEpoch,
@@ -42,8 +42,8 @@ class Note {
       id: map['id'] != null ? map['id'] as int : null,
       title: map['title'] as String,
       contain: map['contain'] as String,
-      mark: map['mark'] as bool,
-      tag: List.from((map['tag'] as List)),
+      mark: map['mark'] == 1 ? true : false,
+      // tag: List.from((map['tag'] as List)),
       color: Color(map['color'] as int),
       createdAt: map['createdAt'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int)
@@ -54,7 +54,7 @@ class Note {
     );
   }
 
-  String toJson() => json.encode(toMap());
+  String toJson() => json.encode(toMapSql());
 
   factory Note.fromJson(String source) =>
       Note.fromMap(json.decode(source) as Map<String, dynamic>);

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mynotes/data/datassource/local_datasource.dart';
+import 'package:mynotes/model/note.dart';
 import 'package:mynotes/pages/noteadd_page.dart';
+import 'package:mynotes/pages/notedetail_page.dart';
 import 'package:mynotes/themes/color.dart';
 import 'package:mynotes/themes/textstyles.dart';
 
@@ -11,6 +14,21 @@ class NotesPage extends StatefulWidget {
 }
 
 class _NotesPageState extends State<NotesPage> {
+  List<Note> note = [];
+
+  Future<void> getNotes() async {
+    var notes = await LocalDatasource().getNotes();
+    setState(() {
+      note = notes;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getNotes();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +39,7 @@ class _NotesPageState extends State<NotesPage> {
         ),
       ),
       body: GridView.builder(
-          itemCount: 12,
+          itemCount: note.length,
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -30,28 +48,41 @@ class _NotesPageState extends State<NotesPage> {
             childAspectRatio: 0.8,
           ),
           itemBuilder: (context, index) {
-            return Card(
-              color: MyColors.yellow,
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Column(
-                  children: [
-                    Text(
-                      'Sample Title',
-                      style: TextStyles.notesTitleDetail,
-                    ),
-                    Divider(
-                      thickness: 2,
-                      height: 5,
-                      color: Colors.white.withOpacity(0.7),
-                    ),
-                    Flexible(
-                      child: Text(
-                        'Sample Contaiiiiiiiiiiiiiiiiiiiiiii smsmsmsm\nxdsfddddddddddsdcdf\nsadfasdf\nsdfd\nsdf\ndgdnd\ndsfsfsfsadf\nadfasdfasdfasfsadf',
-                        style: TextStyles.notesContain,
+            return InkWell(
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NoteDetailPage(note: note[index]),
+                  ),
+                )
+              },
+              child: Card(
+                color: MyColors.yellow,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        note[index].title,
+                        style: TextStyles.notesTitle,
+                        textAlign: TextAlign.center,
                       ),
-                    )
-                  ],
+                      Divider(
+                        thickness: 3,
+                        height: 10,
+                        color: Colors.white.withOpacity(0.7),
+                      ),
+                      Flexible(
+                        child: Text(
+                          note[index].contain,
+                          style: TextStyles.notesContain,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.start,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             );

@@ -1,6 +1,10 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:mynotes/components/inputtext.dart';
+import 'package:mynotes/data/datassource/local_datasource.dart';
 import 'package:mynotes/model/note.dart';
+import 'package:mynotes/pages/notes_page.dart';
 
 class NoteAddPage extends StatefulWidget {
   const NoteAddPage({super.key});
@@ -47,11 +51,21 @@ class _NoteAddPageState extends State<NoteAddPage> {
                 bottom: 20,
                 right: 20,
                 child: FloatingActionButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      Note(
+                      Note note = Note(
                           title: titleController.value.text,
-                          contain: containController.value.text);
+                          contain: containController.value.text,
+                          createdAt: DateTime.now());
+                      var resDatabase =
+                          await LocalDatasource().insertNote(note.toMapSql());
+
+                      if (resDatabase != 0) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NotesPage()));
+                      }
                     }
                   },
                   child: const Icon(Icons.check),
