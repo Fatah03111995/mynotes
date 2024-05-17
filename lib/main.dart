@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mynotes/pages/notes_page.dart';
@@ -16,7 +18,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light().copyWith(
         appBarTheme: AppBarTheme(
-          color: Colors.blue,
+          color: Theme.of(context).primaryColor,
           centerTitle: true,
           titleTextStyle: TextStyles.mBold,
           titleSpacing: 1.7,

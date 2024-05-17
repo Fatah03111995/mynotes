@@ -7,7 +7,7 @@ class Note {
   final int? id;
   final String title;
   final String contain;
-  final bool mark;
+  bool mark;
   // final List tag; // NEXT DEVELOPMENT, HOW TO INPUT ARRAY TO SQLs
   final Color color;
   final DateTime? createdAt;

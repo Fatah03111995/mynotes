@@ -26,55 +26,45 @@ class _NoteAddPageState extends State<NoteAddPage> {
         title: const Text('Add Your Note'),
         leading: null,
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          if (_formKey.currentState!.validate()) {
+            Note note = Note(
+                title: titleController.value.text,
+                contain: containController.value.text,
+                color: MyColors.sakura,
+                createdAt: DateTime.now());
+            var resDatabase =
+                await LocalDatasource().insertNote(note.toMapSql());
+
+            if (resDatabase != 0) {
+              titleController.clear();
+              containController.clear();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => NotesPage()));
+            }
+          }
+        },
+        child: const Icon(Icons.check),
+      ),
       body: Form(
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          child: Stack(
+          child: ListView(
             children: [
-              ListView(
-                children: [
-                  InputText(
-                    txtController: titleController,
-                    label: 'TITLE',
-                    hint: 'Your Title Note',
-                  ),
-                  InputText(
-                    txtController: containController,
-                    label: 'contain..',
-                    hint: 'Your Contain Note..',
-                    maxLine: 8,
-                    inputType: TextInputType.multiline,
-                  ),
-                ],
+              InputText(
+                txtController: titleController,
+                label: 'TITLE',
+                hint: 'Your Title Note',
               ),
-              Positioned(
-                bottom: 20,
-                right: 20,
-                child: FloatingActionButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      Note note = Note(
-                          title: titleController.value.text,
-                          contain: containController.value.text,
-                          color: MyColors.sakura,
-                          createdAt: DateTime.now());
-                      var resDatabase =
-                          await LocalDatasource().insertNote(note.toMapSql());
-
-                      if (resDatabase != 0) {
-                        titleController.clear();
-                        containController.clear();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NotesPage()));
-                      }
-                    }
-                  },
-                  child: const Icon(Icons.check),
-                ),
-              )
+              InputText(
+                txtController: containController,
+                label: 'contain..',
+                hint: 'Your Contain Note..',
+                maxLine: 8,
+                inputType: TextInputType.multiline,
+              ),
             ],
           ),
         ),
