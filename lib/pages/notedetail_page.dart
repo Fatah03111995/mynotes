@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mynotes/model/note.dart';
+import 'package:mynotes/pages/noteedit_page.dart';
 import 'package:mynotes/themes/color.dart';
 import 'package:mynotes/themes/textstyles.dart';
 
@@ -20,7 +21,7 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
         title: const Text('Detail Page'),
       ),
       body: Card(
-        color: MyColors.yellow,
+        color: note.color,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
@@ -51,6 +52,15 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => NoteEditPage(note: note)));
+        },
+        child: const Icon(Icons.edit),
       ),
     );
   }

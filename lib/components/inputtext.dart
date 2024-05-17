@@ -10,15 +10,16 @@ class InputText extends StatelessWidget {
   final int maxLine;
   final TextInputType? inputType;
 
-  const InputText(
-      {super.key,
-      required this.txtController,
-      this.label,
-      this.icon,
-      this.hint,
-      this.iconSpacing = 0,
-      this.maxLine = 1,
-      this.inputType});
+  const InputText({
+    super.key,
+    required this.txtController,
+    this.label,
+    this.icon,
+    this.hint,
+    this.iconSpacing = 0,
+    this.maxLine = 1,
+    this.inputType,
+  });
 
   @override
   Widget build(BuildContext context) {

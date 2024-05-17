@@ -58,7 +58,7 @@ class _NotesPageState extends State<NotesPage> {
                 )
               },
               child: Card(
-                color: MyColors.yellow,
+                color: note[index].color,
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(

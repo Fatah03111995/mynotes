@@ -59,11 +59,11 @@ class LocalDatasource {
   }
 
 //update note
-  Future<int> updateNoteById(Note note) async {
+  Future<int> updateNoteById(Map<String, dynamic> note) async {
     final db = await _openDatabase();
 
-    return await db.update(tableName, note.toMapSql(),
-        where: 'id = ?', whereArgs: [note.id]);
+    return await db
+        .update(tableName, note, where: 'id = ?', whereArgs: [note['id']]);
   }
 
   //delete note by id
