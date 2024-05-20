@@ -3,6 +3,7 @@ import 'package:mynotes/data/datassource/local_datasource.dart';
 import 'package:mynotes/model/note.dart';
 import 'package:mynotes/pages/noteadd_page.dart';
 import 'package:mynotes/pages/notedetail_page.dart';
+import 'package:mynotes/themes/color.dart';
 import 'package:mynotes/themes/textstyles.dart';
 
 class NotesPage extends StatefulWidget {
@@ -12,14 +13,43 @@ class NotesPage extends StatefulWidget {
   State<NotesPage> createState() => _NotesPageState();
 }
 
-class _NotesPageState extends State<NotesPage> {
+class _NotesPageState extends State<NotesPage>
+    with SingleTickerProviderStateMixin {
   List<Note> note = [];
+  late TabController tabController;
+
+// ------------------ FUNCTION
+
+  void tabRoutes(int value) {
+    switch (value) {
+      case 0:
+        {
+          getNotes();
+        }
+      case 1:
+        {
+          getMarkNotes();
+        }
+    }
+  }
 
   void updateData(int index) async {
     note[index].mark = !note[index].mark;
     int resp = await LocalDatasource().updateNoteById(note[index].toMapSql());
     if (resp != 0) {
       getNotes();
+    }
+  }
+
+  void getMarkNotes() {
+    if (note != []) {
+      List<Note> filteredNotes = [];
+      for (var e in note) {
+        if (e.mark == true) filteredNotes.add(e);
+      }
+      setState(() {
+        note = filteredNotes;
+      });
     }
   }
 
@@ -30,10 +60,12 @@ class _NotesPageState extends State<NotesPage> {
     });
   }
 
+  /// ----------------- FUNCTION END
   @override
   void initState() {
     super.initState();
     getNotes();
+    tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -43,6 +75,24 @@ class _NotesPageState extends State<NotesPage> {
         automaticallyImplyLeading: false,
         leading: null,
         centerTitle: true,
+        bottom: TabBar(
+            controller: tabController,
+            labelColor: MyColors.sakura,
+            labelStyle: TextStyles.smBold,
+            indicatorColor: MyColors.sakura,
+            indicatorWeight: 5,
+            onTap: (value) {
+              tabRoutes(value);
+            },
+            unselectedLabelColor: Colors.white,
+            tabs: const [
+              Tab(
+                child: Text('All'),
+              ),
+              Tab(
+                icon: Icon(Icons.bookmark),
+              ),
+            ]),
         title: const Text(
           'My Notes',
         ),
