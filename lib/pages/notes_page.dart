@@ -16,11 +16,13 @@ class NotesPage extends StatefulWidget {
 class _NotesPageState extends State<NotesPage>
     with SingleTickerProviderStateMixin {
   List<Note> note = [];
+  bool isLoading = true;
   late TabController tabController;
 
 // ------------------ FUNCTION
 
-  void tabRoutes(int value) {
+  void tabRoutes(int value) async {
+    isLoading = true;
     switch (value) {
       case 0:
         {
@@ -49,18 +51,23 @@ class _NotesPageState extends State<NotesPage>
       }
       setState(() {
         note = filteredNotes;
+        isLoading = false;
       });
     }
   }
 
   Future<void> getNotes() async {
+    await Future.delayed(const Duration(
+        seconds: 2)); //to give some more time to UI displaying loader
     var notes = await LocalDatasource().getNotes();
     setState(() {
       note = notes;
+      isLoading = false;
     });
   }
 
-  /// ----------------- FUNCTION END
+  // ----------------- FUNCTION END
+
   @override
   void initState() {
     super.initState();
@@ -97,79 +104,95 @@ class _NotesPageState extends State<NotesPage>
           'My Notes',
         ),
       ),
-      body: GridView.builder(
-          itemCount: note.length,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
-            childAspectRatio: 0.6,
-          ),
-          itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NoteDetailPage(note: note[index]),
+      body: isLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                color: MyColors.sakura,
+              ),
+            )
+          : note.isEmpty
+              ? Center(
+                  child: Text(
+                    'No Notes Here',
+                    style: TextStyles.s,
+                    textAlign: TextAlign.center,
                   ),
                 )
-              },
-              child: Card(
-                color: note[index].color,
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            note[index].title,
-                            style: TextStyles.notesTitle,
-                            textAlign: TextAlign.center,
-                          ),
-                          Divider(
-                            thickness: 3,
-                            height: 10,
-                            color: Colors.white.withOpacity(0.7),
-                          ),
-                          Text(
-                            note[index].contain,
-                            style: TextStyles.notesContain,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.start,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton.filled(
-                              onPressed: () {
-                                updateData(index);
-                              },
-                              icon: Icon(note[index].mark
-                                  ? Icons.bookmark
-                                  : Icons.bookmark_border)),
-                          IconButton.filled(
-                              onPressed: () {
-                                LocalDatasource()
-                                    .deleteNoteById(note[index].id!);
-                                getNotes();
-                              },
-                              icon: const Icon(Icons.delete)),
-                        ],
-                      )
-                    ],
+              : GridView.builder(
+                  itemCount: note.length,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 8,
+                    crossAxisSpacing: 8,
+                    childAspectRatio: 0.6,
                   ),
-                ),
-              ),
-            );
-          }),
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                NoteDetailPage(note: note[index]),
+                          ),
+                        )
+                      },
+                      child: Card(
+                        color: note[index].color,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Column(
+                                children: [
+                                  Text(
+                                    note[index].title,
+                                    style: TextStyles.notesTitle,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Divider(
+                                    thickness: 3,
+                                    height: 10,
+                                    color: Colors.white.withOpacity(0.7),
+                                  ),
+                                  Text(
+                                    note[index].contain,
+                                    style: TextStyles.notesContain,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton.filled(
+                                      onPressed: () {
+                                        updateData(index);
+                                      },
+                                      icon: Icon(note[index].mark
+                                          ? Icons.bookmark
+                                          : Icons.bookmark_border)),
+                                  IconButton.filled(
+                                      onPressed: () {
+                                        LocalDatasource()
+                                            .deleteNoteById(note[index].id!);
+                                        getNotes();
+                                      },
+                                      icon: const Icon(Icons.delete)),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
